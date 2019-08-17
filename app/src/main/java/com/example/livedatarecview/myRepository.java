@@ -1,5 +1,7 @@
 package com.example.livedatarecview;
 
+import android.util.Log;
+
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.firebase.firestore.CollectionReference;
@@ -27,7 +29,7 @@ public class myRepository {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference cRef = db.collection("anime");
         cRef.addSnapshotListener((queryDocumentSnapshots, e) -> {
-            if (queryDocumentSnapshots.getDocumentChanges() != null) {
+            try {
                 for (DocumentChange dc : queryDocumentSnapshots.getDocumentChanges()) {
                     switch (dc.getType()) {
                         case ADDED:
@@ -37,15 +39,16 @@ public class myRepository {
                         case MODIFIED:
                             DocumentSnapshot dcMod = dc.getDocument();
                             AnimeModel mm = model.stream()
-                                    .filter(p -> p.getId() == dcMod.toObject(AnimeModel.class)
-                                            .getId())
+                                    .filter(p -> p.getId() == dcMod.toObject(AnimeModel.class).getId())
                                     .findFirst()
                                     .orElse(null);
                             model.set(model.indexOf(mm), dcMod.toObject(AnimeModel.class));
                             break;
                         case REMOVED:
                             DocumentSnapshot dcRem = dc.getDocument();
-                            AnimeModel mr = model.stream().filter(p -> p.getId() == dcRem.toObject(AnimeModel.class).getId()).findFirst().orElse(null);
+                            AnimeModel mr = model.stream().filter(p -> p.getId() == dcRem.toObject(AnimeModel.class).getId())
+                                    .findFirst()
+                                    .orElse(null);
                             model.remove(mr);
                             break;
                         default:
@@ -53,7 +56,10 @@ public class myRepository {
                     }
 
                 }
+            }catch (Exception ex){
+                Log.i("ex Exception",ex.getMessage());
             }
+
             data.setValue(model);
         });
         data.setValue(model);
