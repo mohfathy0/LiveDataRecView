@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
         mViewModel.getHeros().observe(this, new Observer<List<AnimeModel>>() {
             @Override
             public void onChanged(List<AnimeModel> animeModels) {
+                Log.i("mylog_MainActivity","dataset notified");
                 mAdapter.notifyDataSetChanged();
             }
         });
