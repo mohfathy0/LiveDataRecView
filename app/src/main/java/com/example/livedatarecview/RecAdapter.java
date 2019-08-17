@@ -43,23 +43,26 @@ public class RecAdapter extends RecyclerView.Adapter<RecAdapter.myViewHolder> {
     @NonNull
     @Override
     public myViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-       View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_layout,parent,false);
-       myViewHolder recyclerView = new myViewHolder(view);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_layout, parent, false);
+        myViewHolder recyclerView = new myViewHolder(view);
         return recyclerView;
     }
 
     @Override
     public void onBindViewHolder(@NonNull myViewHolder holder, int position) {
-        AnimeModel currentItem=   animeModels.get(position);
-            holder.mTextviewName.setText(currentItem.getCharName());
-            holder.mTextviewTitle.setText(currentItem.getCharTitle());
+        AnimeModel currentItem = animeModels.get(position);
+        holder.mTextviewName.setText(currentItem.getCharName());
+        holder.mTextviewTitle.setText(currentItem.getCharTitle());
         Glide.with(mContext).asBitmap().load(currentItem.getImageURL()).dontAnimate().into(holder.mImageView);
     }
 
     @Override
     public int getItemCount() {
-
+        if (animeModels == null) {
+            return 0;
+        } else {
             return animeModels.size();
+        }
 
 
     }
