@@ -31,31 +31,29 @@ public class myRepository {
         final MutableLiveData<List<AnimeModel>> data = new MutableLiveData<>();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference cRef = db.collection("anime");
-        cRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                for (DocumentChange dc : queryDocumentSnapshots.getDocumentChanges()) {
-                    switch (dc.getType()) {
-                        case ADDED:
-                            DocumentSnapshot dcAdd = dc.getDocument();
-                            model.add(dcAdd.toObject(AnimeModel.class));
-                            break;
-                        case MODIFIED:
-                            DocumentSnapshot dcMod = dc.getDocument();
-                            AnimeModel  mm = model.stream().filter(p -> p.getId() == dcMod.toObject(AnimeModel.class).getId()).findFirst().get();
-                            int indexmm = model.indexOf(mm);
-                            model.set(indexmm, dcMod.toObject(AnimeModel.class));
-
-                        case REMOVED:
-                            DocumentSnapshot dcRem = dc.getDocument();
-                            AnimeModel  mr = model.stream().filter(p -> p.getId() == dcRem.toObject(AnimeModel.class).getId()).findFirst().get();
-                            model.remove(mr);
-                    }
+        cRef.addSnapshotListener((queryDocumentSnapshots, e) -> {
+            for (DocumentChange dc : queryDocumentSnapshots.getDocumentChanges()) {
+                switch (dc.getType()) {
+                    case ADDED:
+                        DocumentSnapshot dcAdd = dc.getDocument();
+                        model.add(dcAdd.toObject(AnimeModel.class));
+                        break;
+                    case MODIFIED:
+                        DocumentSnapshot dcMod = dc.getDocument();
+                        AnimeModel  mm = model.stream()
+                                .filter(p -> p.getId() == dcMod.toObject(AnimeModel.class)
+                                .getId())
+                                .findFirst()
+                                .get();
+                        model.set(model.indexOf(mm), dcMod.toObject(AnimeModel.class));
+                    case REMOVED:
+                        DocumentSnapshot dcRem = dc.getDocument();
+                        AnimeModel  mr = model.stream().filter(p -> p.getId() == dcRem.toObject(AnimeModel.class).getId()).findFirst().get();
+                        model.remove(mr);
                 }
-                data.setValue(model);
             }
+            data.setValue(model);
         });
-
         data.setValue(model);
         return data;
     }
