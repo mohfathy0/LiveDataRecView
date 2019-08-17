@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -44,8 +43,7 @@ public class RecAdapter extends RecyclerView.Adapter<RecAdapter.myViewHolder> {
     @Override
     public myViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_layout, parent, false);
-        myViewHolder recyclerView = new myViewHolder(view);
-        return recyclerView;
+        return new myViewHolder(view);
     }
 
     @Override
@@ -63,7 +61,5 @@ public class RecAdapter extends RecyclerView.Adapter<RecAdapter.myViewHolder> {
         } else {
             return animeModels.size();
         }
-
-
     }
 }

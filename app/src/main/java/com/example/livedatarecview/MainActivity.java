@@ -1,13 +1,10 @@
 package com.example.livedatarecview;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Bundle;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
@@ -22,12 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
         mViewModel= ViewModelProviders.of(this).get(myViewModel.class);
         mViewModel.init();
-        mViewModel.getHeros().observe(this, new Observer<List<AnimeModel>>() {
-            @Override
-            public void onChanged(List<AnimeModel> animeModels) {
-                mAdapter.notifyDataSetChanged();
-            }
-        });
+        mViewModel.getHeros().observe(this, animeModels -> mAdapter.notifyDataSetChanged());
         mRecyclerView = findViewById(R.id.mRecyclerView);
         mLayoutManager = new LinearLayoutManager(this);
         mAdapter = new RecAdapter(this,mViewModel.getHeros().getValue());

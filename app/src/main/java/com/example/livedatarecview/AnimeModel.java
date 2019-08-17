@@ -4,7 +4,7 @@ public class AnimeModel {
     private String imageURL;
     private String charName;
     private String charTitle;
-    public int id;
+    private int id;
 
     public int getId() {
         return id;
