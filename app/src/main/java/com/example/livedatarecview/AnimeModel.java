@@ -4,14 +4,24 @@ public class AnimeModel {
     private String imageURL;
     private String charName;
     private String charTitle;
+    public int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public AnimeModel() {
     }
 
-    public AnimeModel(String imageURL, String charName, String charTitle) {
+    public AnimeModel(String imageURL, String charName, String charTitle, int id) {
         this.imageURL = imageURL;
         this.charName = charName;
         this.charTitle = charTitle;
+        this.id = id;
     }
 
     public String getImageURL() {
