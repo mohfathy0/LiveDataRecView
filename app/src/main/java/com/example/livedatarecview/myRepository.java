@@ -36,7 +36,6 @@ public class myRepository {
                         case ADDED:
                             DocumentSnapshot dcAdd = dc.getDocument();
                            model.add(dcAdd.toObject(AnimeModel.class));
-                            data.setValue(model);
                             break;
                     }
                 }
