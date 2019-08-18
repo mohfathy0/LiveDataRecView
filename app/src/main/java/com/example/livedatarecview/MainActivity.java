@@ -19,7 +19,9 @@ public class MainActivity extends AppCompatActivity {
 
         mViewModel= ViewModelProviders.of(this).get(myViewModel.class);
         mViewModel.init();
-        mViewModel.getHeros().observe(this, animeModels -> mAdapter.notifyDataSetChanged());
+        mViewModel.getHeros().observe(this, animeModels -> {
+            mAdapter.notifyDataSetChanged();
+        });
         mRecyclerView = findViewById(R.id.mRecyclerView);
         mLayoutManager = new LinearLayoutManager(this);
         mAdapter = new RecAdapter(this,mViewModel.getHeros().getValue());

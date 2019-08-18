@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -19,17 +20,20 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 
-public class ItemsLiveData2 extends LiveData<DocumentSnapshot> implements EventListener<QuerySnapshot> {
-
+public class ItemsLiveData2 extends LiveData<AnimeModel> implements EventListener<QuerySnapshot> {
+//https://www.youtube.com/watch?v=WXc4adLMDqk&feature=share&fbclid=IwAR1_nYdrUDP9cm4dD_qT4LUshpl22cb4-HZeb2OrSGbBJ-dYWILcwCcBARQ
+    //https://github.com/Bassem-Kamal/TryUsingMVVMWithFireBase/blob/master/ItemRepository.java
+    //https://stackoverflow.com/questions/49798814/android-architecture-components-with-firebase-specifically-firestore
     private Query query;
     private ListenerRegistration listenerRegistration = null;
     private MutableLiveData<List<AnimeModel>> mListOfDocument;
 
 
 
-    public ItemsLiveData2(String Collection) {
+
+    public ItemsLiveData2(FirebaseFirestore db, String Collection) {
         this.mListOfDocument = new MutableLiveData<>();
-        query= FirebaseFirestore.getInstance().collection(Collection).whereEqualTo("charName","Naruto sama");
+        query= db.collection(Collection).whereEqualTo("charName","Naruto sama");
         listenerRegistration = query.addSnapshotListener(this);
         SendLog("Constractor");
     }
@@ -37,7 +41,7 @@ public class ItemsLiveData2 extends LiveData<DocumentSnapshot> implements EventL
     public ItemsLiveData2() {
     }
 
-    public LiveData<List<AnimeModel>> getListOfDocument() {
+    public MutableLiveData<List<AnimeModel>> getListOfDocument() {
         SendLog("getListOfDocument");
         ArrayList<AnimeModel>model= new ArrayList<>();
         mListOfDocument.setValue(model);

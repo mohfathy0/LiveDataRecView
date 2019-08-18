@@ -15,12 +15,20 @@ import java.util.List;
 
 
 public class myRepository2 {
-    private ItemsLiveData2 itemsLiveData;
+    private static ItemsLiveData2 itemsLiveData;
     private static myRepository2 instance;
+    private static MutableLiveData<List<AnimeModel>> model;
+   private static FirebaseFirestore db;
 
     public static myRepository2 getInstance() {
         if (instance == null) {
             instance = new myRepository2();
+           db = FirebaseFirestore.getInstance();
+            itemsLiveData = new ItemsLiveData2(db,"anime");
+            MutableLiveData<List<AnimeModel>> tempModel = new MutableLiveData<>();
+
+            model=new MutableLiveData<>();
+            model.setValue(tempModel.getValue());
             SendLog("getInstance");
         }
 
@@ -28,12 +36,13 @@ public class myRepository2 {
     }
 
     public LiveData<List<AnimeModel>> getData() {
-        if (itemsLiveData==null){
-            SendLog("itemLiveData is null");
-            itemsLiveData = new ItemsLiveData2("anime");
-        }
+
         SendLog("itemLiveData returned");
-        return itemsLiveData.getListOfDocument();
+        if (model.getValue()!=null){
+            SendLog(model.getValue().toString());
+        }
+
+        return model;
 
     }
     public static void SendLog(String message){
