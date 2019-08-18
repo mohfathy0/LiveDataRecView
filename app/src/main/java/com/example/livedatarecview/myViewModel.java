@@ -7,17 +7,18 @@ import java.util.List;
 
 public class myViewModel extends ViewModel {
 
-    private MutableLiveData<List<AnimeModel>> mMainModel;
-    private myRepository mRepository;
+    private LiveData<List<AnimeModel>> mMainModel;
+    private myRepository2 mRepository;
 
     public void init(){
         if (mMainModel!=null){
             return;
         }
-        mRepository=myRepository.getInstance();
+        mRepository=myRepository2.getInstance();
         mMainModel=  mRepository.getData();
     }
-    public LiveData<List<AnimeModel>> getHeros(){
+    public LiveData<List<AnimeModel>> getHeros()
+    {
         return mMainModel;
     }
 
