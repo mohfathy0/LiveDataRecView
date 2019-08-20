@@ -8,13 +8,13 @@ import java.util.List;
 public class myViewModel extends ViewModel {
 
     private LiveData<List<AnimeModel>> mMainModel;
-    private myRepository2 mRepository;
+    private myRepository mRepository;
 
     public void init(){
         if (mMainModel!=null){
             return;
         }
-        mRepository=myRepository2.getInstance();
+        mRepository=myRepository.getInstance();
         mMainModel=  mRepository.getData();
     }
     public LiveData<List<AnimeModel>> getHeros()

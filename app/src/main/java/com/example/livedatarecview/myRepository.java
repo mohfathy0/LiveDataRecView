@@ -62,8 +62,7 @@ public class myRepository {
 
             data.setValue(model);
         });
-        ItemsLiveData l = new ItemsLiveData("Naruto");
-        l.getListOfDocument();
+
 
         data.setValue(model);
         return data;
